@@ -266,7 +266,7 @@ da2 = l2/2;
 
     end
 
-fprintf('Количество точек = %g',N);
+fprintf('Количество точек = %g \n',N);
 
 
 sum_um = zeros(size(G(:,:,1)));

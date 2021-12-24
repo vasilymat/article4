@@ -3,6 +3,7 @@
 %Global constants
 %%
 addpath('HelpFun','helpPGA','-end')
+load('Abb_field(E).mat');
 
 N = 1024;
 Global_constants = zeros(10,1);
@@ -41,14 +42,14 @@ x3 = x3 + dx3/2; % Ёто нужно, чтобы отцентрировать is_in_circle
 y3 = y3 + dx3/2;
 
 ind = 4;
-temp_little = false(l3,l3,zdim);
+temp_little = false(l3,l3);
 temp_little(1+ind:end-ind,1+ind:end-ind,:) = true;
-Se = zeros(l,l);
+Se = zeros(N,N);
 
 [Z5,~,is_in_circle2_part] = zerfit(x3*0,x3,y3,radius/2,2);
 
 l2 = 64;
-dx2 = dx*l/l2;
+dx2 = dx*N/l2;
 [x2,y2] = meshgrid(-L/2:dx2:L/2-dx2);
 
 x2 = x2 + dx2/2; % Ёто дл€ центрального цикла
@@ -57,7 +58,7 @@ Rd2 = radius/2; %Radius div 2
 %√енерируем необходимые полиносы ÷ернике
 [Z2,~,is_in_circle2] = zerfit(x2,x2,y2,Rd2,5); %тут мы сгенирировали фазу, которую
 [Zmin,amin,~] = zerfit(x*0,x,y,radius/2,5); %Ёто дл€ hNa/2
-Deg_hNa = 4;
+Deg_hNa = 8;
 [Z,~,is_in_circle] = zerfit(x*0,x,y,radius,Deg_hNa);
 
 
@@ -112,7 +113,7 @@ if hNa_div2 == true
     fprintf('Ёнтропи€ исходного изображени€ = %g \n',...
                                                 shann_entropy(E2(tempz)) );    
     N2 = 5;
-    Gs_temp = zeros(l,l);
+    Gs_temp = zeros(N,N);
     Gs = repmat(Gs_temp,[1 1 N2+1]);
     Sh0 = zeros(N2,1);
     Q = [40,36,32,24,20,16,8];    
@@ -301,4 +302,5 @@ if hNa == true
 end
 toc
 
-ap4 = Z\Gs(is_in_circle);
+figure(1); imagesc(abs(E)); colormap('gray');
+figure(2); imagesc(abs(Gk)); colormap('gray');
